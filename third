@@ -1,0 +1,63 @@
+import docx,time
+from docx import Document
+from docx.enum.table import WD_TABLE_ALIGNMENT #居住库
+from docx.enum.text import WD_PARAGRAPH_ALIGNMENT
+from docx.shared import Pt,RGBColor #字体包
+
+document1 = Document()
+#自动生成请假条
+rm = document1.add_heading(level=2).add_run(u"请假条")#标题
+rm.font.name=u'微软雅黑'#标题样式
+rm.font.size = Pt(30)#标题字体
+
+document1.styles['Normal'].font.name = u'宋体'#全局字体
+document1.styles['Normal'].font.size = Pt(18)
+document1.paragraphs[0].alignment = WD_TABLE_ALIGNMENT.CENTER#居中
+#接受用户输入
+for i in range(10):
+    xm = input('请输入你的姓名：')
+    if '\u4e00' <= xm <='\u9fff': #判断中文
+        pass
+    else:
+        print("请输入中文：")
+        break
+    qjyy = input("请输入你要请假的原因；")
+    if '\u4e00' <= qjyy <='\u9fff': #判断中文
+        pass
+    else:
+        print("请输入中文：")
+        break
+    qtts = input("请输入你要请假的天数：")
+    str = qtts#请假天数转化
+    yasuo = (str.isdigit())#哈撒几
+    if yasuo == True: #判断整数
+        pass
+    else:
+        print("请输入整数：")
+        break
+
+    #当前日期
+    jt = time.strftime("生成日期："+"%H:%M:%S")
+
+    dl1 = document1.add_paragraph("请假人："+xm)#录入请假人
+    pr1 = document1.add_paragraph()
+    dl2 = document1.add_paragraph("请假原因："+qjyy)#录入请假原因
+    pr2 = document1.add_paragraph()
+    dl3 = document1.add_paragraph("请假天数："+qtts)#录入请假天数
+    pr3 = document1.add_paragraph()
+    dl4 = document1.add_paragraph(jt)#获取当前时间
+    dl4.paragraph_format.alignment = WD_PARAGRAPH_ALIGNMENT.RIGHT
+
+    print("是否还要生成下一个,y/n")
+    xhs = input("")
+    sum = i
+    if xhs == 'y':
+        sum1 = sum
+        document1.save(str(sum1) + 'sum.docx')
+        continue
+    elif xhs == 'n':
+        break
+    else:
+        print("请按提示输入y/n")
+        break
+document1.save('ceshi.docx')
